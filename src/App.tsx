@@ -1,17 +1,20 @@
 import {ReactSearchAutocomplete} from "components/search/index"
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import Layout from 'components/layout/Layout';
 import Card, {CardProps} from "components/country/Card";
 import {getRequest} from "./AxiosClient"
+import SelectBox from "components/select";
 function App() {
   type Item = {
     id: number;
     name: string;
+    nativeName: string;
   }
   const [countryNameList, setCountryNameList] = useState<Item[]>([])
   const [showSelectedCountryCard, setShowSelectedCountryCard] = useState<boolean>(false);
   const [selectedCountryData, setSelectedCountryData] = useState<CardProps>();
-  const [clearStatus, setClearStatus] = useState<boolean>(false)
+  const [clearStatusForSearchBox, setClearStatusForSearchBox] = useState<boolean>(false)
+  const [clearStatusForSelectBox, setClearStatusForSelectBox] = useState<boolean>(false)
   const  fetchCountriesNames  = useCallback(async() => {
     try {
       const response = await getRequest(`/all?fields=name,nativeName`)
@@ -28,9 +31,16 @@ function App() {
   }, [fetchCountriesNames]); 
 
   const handleOnSelect = async (item: Item) => {
+    setClearStatusForSelectBox(true);
     await getCountryDetailByName(item.name);
+    setClearStatusForSelectBox(false);
   }
+  const handleSelectBoxOnSelect = async (countryName: string) => {
+    setClearStatusForSearchBox(true);
+    await getCountryDetailByName(countryName);
+    setClearStatusForSearchBox(false);
 
+  }
   const handleOnClear = () => {
     setShowSelectedCountryCard(false);
   }
@@ -52,13 +62,19 @@ function App() {
   }
   return (
    <Layout>
-     <ReactSearchAutocomplete
+     <SelectBox optionList={countryNameList} 
+      onSelect={handleSelectBoxOnSelect}
+      setInitial={clearStatusForSelectBox}
+      onClear={handleOnClear}
+      />
+    <p>OR</p> 
+    <ReactSearchAutocomplete
      items={countryNameList}
      onSelect={handleOnSelect}
      onClear={handleOnClear}
      placeholder={'Search Country'}
      fuseOptions={{ keys: ["name", "nativeName"] }}
-     shouldClear={clearStatus}
+     shouldClear={clearStatusForSearchBox}
      />
     {showSelectedCountryCard && (
     <Card 
