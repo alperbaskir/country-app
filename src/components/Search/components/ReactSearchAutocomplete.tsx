@@ -26,7 +26,8 @@ export interface ReactSearchAutocompleteProps<T> {
   styling?: DefaultTheme
   resultStringKeyName?: string
   inputSearchString?: string
-  formatResult?: Function
+  formatResult?: Function,
+  shouldClear: boolean,
 }
 
 export default function ReactSearchAutocomplete<T>({
@@ -46,6 +47,7 @@ export default function ReactSearchAutocomplete<T>({
   styling = {},
   resultStringKeyName = 'name',
   inputSearchString = '',
+  shouldClear= false,
   formatResult
 }: ReactSearchAutocompleteProps<T>) {
   const theme = { ...defaultTheme, ...styling }
@@ -57,7 +59,6 @@ export default function ReactSearchAutocomplete<T>({
   const [searchString, setSearchString] = useState<string>(inputSearchString)
   const [results, setResults] = useState<any[]>([])
   const [highlightedItem, setHighlightedItem] = useState<number>(0)
-
   const callOnSearch = (keyword: string) => {
     let newResults: T[] = []
     
@@ -76,6 +77,13 @@ export default function ReactSearchAutocomplete<T>({
   useEffect(() => {
     setSearchString(inputSearchString)
   }, [inputSearchString])
+
+  useEffect(()=> {
+    if(shouldClear) {
+      setSearchString('')
+      onClear()
+    }
+  }, [shouldClear])
 
   useEffect(() => {
     searchString?.length > 0 &&
@@ -124,8 +132,8 @@ export default function ReactSearchAutocomplete<T>({
       switch (event.key) {
         case 'Enter':
           setResults([])
-          onSelect(results[highlightedItem])
-          setSearchString(results[highlightedItem][resultStringKeyName])
+          results.length !== 0 && onSelect(results[highlightedItem])
+          results.length !== 0 && setSearchString(results[highlightedItem][resultStringKeyName])
           setHighlightedItem(0)
           break
         case 'ArrowUp':

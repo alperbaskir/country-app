@@ -1,31 +1,73 @@
-import {ReactSearchAutocomplete} from "components/Search/index"
-import React, { useCallback, useEffect, useState } from "react";
+import {ReactSearchAutocomplete} from "components/search/index"
+import { useCallback, useEffect, useState } from "react";
+import Layout from 'components/layout/Layout';
+import Card, {CardProps} from "components/country/Card";
+import {getRequest} from "./AxiosClient"
 function App() {
-  const [countryNameList, setCountryNameList] = useState<String[]>([])
+  type Item = {
+    id: number;
+    name: string;
+  }
+  const [countryNameList, setCountryNameList] = useState<Item[]>([])
+  const [showSelectedCountryCard, setShowSelectedCountryCard] = useState<boolean>(false);
+  const [selectedCountryData, setSelectedCountryData] = useState<CardProps>();
+  const [clearStatus, setClearStatus] = useState<boolean>(false)
   const  fetchCountriesNames  = useCallback(async() => {
     try {
-      const response = await fetch('https://restcountries.com/v2/all?fields=name')
-      if(!response.ok) {
-        throw new Error('Something went wrong!')
+      const response = await getRequest(`/all?fields=name,nativeName`)
+      if(response.data) {
+        const searchBoxList = response.data.map((item: { name: string; nativeName: string}, index: number) => {return {name: item.name, id: index, nativeName: item.nativeName}})
+        setCountryNameList(searchBoxList);
       }
-      const data = await response.json();
-      const searchBoxList = data.map((item: { name: string; }, index: number) => {return {name: item.name, id: index}})
-      setCountryNameList(searchBoxList);
     } catch (err) {
-      throw new Error('Something went wrong!')
+      throw new Error('Houston, we have a problem.. with fetch')
     }
   }, []);
   useEffect(()=>{
     fetchCountriesNames();
   }, [fetchCountriesNames]); 
+
+  const handleOnSelect = async (item: Item) => {
+    await getCountryDetailByName(item.name);
+  }
+
+  const handleOnClear = () => {
+    setShowSelectedCountryCard(false);
+  }
+
+  const getCountryDetailByName = async (name: string)=> {
+    try {
+      const response = await getRequest(`/name/${name}`);
+      if(response.data && response.data.length > 0) {
+        setSelectedCountryData({
+          name: response.data[0].name,
+          capital: response.data[0].capital,
+          flag: response.data[0].flag
+        })
+        setShowSelectedCountryCard(true);
+      }
+    } catch (err){
+      throw new Error('Houston, we have a problem.. with fetch')
+    }
+  }
   return (
-   <React.Fragment>
-     <ReactSearchAutocomplete 
+   <Layout>
+     <ReactSearchAutocomplete
      items={countryNameList}
-     autoFocus
+     onSelect={handleOnSelect}
+     onClear={handleOnClear}
+     placeholder={'Search Country'}
+     fuseOptions={{ keys: ["name", "nativeName"] }}
+     shouldClear={clearStatus}
      />
-     <div>I'm going to add selected country component here!</div>
-   </React.Fragment> 
+    {showSelectedCountryCard && (
+    <Card 
+    name={selectedCountryData!.name}
+    capital={selectedCountryData!.capital}
+    flag={selectedCountryData!.flag}
+     />
+    )} 
+   </Layout> 
   
   );
 }
