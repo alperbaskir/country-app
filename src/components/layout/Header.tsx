@@ -1,11 +1,11 @@
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const Header = () => {
-    return(
-        <StyledHeader>
-            <img src="./logo.png" alt="Country App"></img>
-        </StyledHeader>
-    )
+  return(
+    <StyledHeader>
+      <img src="./logo.png" alt="Country App"></img>
+    </StyledHeader>
+  )
 }
 const StyledHeader = styled.div`
 > img {

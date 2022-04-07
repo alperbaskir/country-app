@@ -1,5 +1,5 @@
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const LoadingSpinner = () => (
   <StyledSpinner viewBox="0 0 50 50">

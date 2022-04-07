@@ -6,7 +6,7 @@ import {getRequest} from "../AxiosClient"
 import SelectBox from "components/select";
 import { LoadingHOC } from "components/loading/LoadingHOC";
 import { useTranslation } from 'react-i18next'
-const View = (props:any) => {
+const View = (props: any) => {
   const { t } = useTranslation();
   const {setLoading} = props;
   type Item = {
