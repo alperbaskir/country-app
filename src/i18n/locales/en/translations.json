@@ -1,0 +1,8 @@
+{
+   "searchBoxTitle": "Search Country",
+   "fetchingError": "Houston, we have a problem.. with fetch",
+   "orLabel": "OR",
+   "selectBoxTitle": "Select Country",
+   "nameLabel": "Name:",
+   "capitalLabel": "Capital:"
+}

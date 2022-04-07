@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 import { useEffect, useState,  } from "react";
+import { useTranslation } from 'react-i18next'
 
 const SelectBox = (props: any) => {
+    const { t } = useTranslation();
     const [selectedItem, setSelectedItem] = useState<string>('select')
     useEffect(()=>{
         if(props.setInitial) {
@@ -16,7 +18,7 @@ const SelectBox = (props: any) => {
     return(
         <StyledSelectBox>
             <select id="country" onChange={changeHandler} value={selectedItem}>
-                  <option value="select">Select Country From List</option>
+                  <option value="select">{t('selectBoxTitle')}</option>
                   {props.optionList.map((country: { name: {} | null | undefined; }, index: number)=>{
                       return(<option key={index} value={country.name!.toString()}>{country.name}</option>)
                   })}

@@ -5,7 +5,9 @@ import Card, {CardProps} from "components/country/Card";
 import {getRequest} from "../AxiosClient"
 import SelectBox from "components/select";
 import { LoadingHOC } from "components/loading/LoadingHOC";
+import { useTranslation } from 'react-i18next'
 const View = (props:any) => {
+  const { t } = useTranslation();
   const {setLoading} = props;
   type Item = {
     id: number;
@@ -27,7 +29,7 @@ const View = (props:any) => {
       }
     } catch (err) {
       setLoading(false);
-      throw new Error('Houston, we have a problem.. with fetch')
+      throw new Error(t('fetchingError'))
     }
   }, []);
   useEffect(()=>{
@@ -64,7 +66,7 @@ const View = (props:any) => {
       }
     } catch (err){
       setLoading(false);
-      throw new Error('Houston, we have a problem.. with fetch')
+      throw new Error(t('fetchingError'))
     }
   }
   return (
@@ -74,12 +76,12 @@ const View = (props:any) => {
       setInitial={clearStatusForSelectBox}
       onClear={handleOnClear}
       />
-    <p>OR</p> 
+    <p>{t('orLabel')}</p> 
     <ReactSearchAutocomplete
      items={countryNameList}
      onSelect={handleOnSelect}
      onClear={handleOnClear}
-     placeholder={'Search Country'}
+     placeholder={t('searchBoxTitle')}
      fuseOptions={{ keys: ["name", "nativeName"] }}
      shouldClear={clearStatusForSearchBox}
      />
