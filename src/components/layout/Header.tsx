@@ -10,8 +10,9 @@ const Header = () => {
 const StyledHeader = styled.div`
 > img {
     min-width: 15rem;
-    max-width: 18rem;
+    max-width: 20rem;
     padding-bottom: 0.5rem;
+    padding-right: 0.5rem;
 }
 `;
 

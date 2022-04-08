@@ -20,6 +20,7 @@ const Card = (props: CardProps) => {
 }
 
 const StyledCard = styled.div`
+background-color: white;
 margin: 2rem 0;
 padding: 1rem;
 justify-content: space-between;
@@ -28,6 +29,8 @@ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 border-radius: 6px;
 >img {
     width: 250px;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 >p label {
     font-weight:700;
