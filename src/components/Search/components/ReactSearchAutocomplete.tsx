@@ -1,10 +1,10 @@
 import { default as Fuse } from 'fuse.js'
 import React, { ChangeEvent, FocusEventHandler, KeyboardEvent, useEffect, useState } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { defaultFuseOptions, DefaultTheme, defaultTheme } from '../config/config'
-import { debounce } from '../utils/utils'
-import Results, { Item } from './Results'
-import SearchInput from './SearchInput'
+import { defaultFuseOptions, DefaultTheme, defaultTheme } from 'components/Search/config/config'
+import { debounce } from 'components/Search/utils/utils'
+import Results, { Item } from 'components/Search/components/Results'
+import SearchInput from 'components/Search/components/SearchInput'
 
 export const DEFAULT_INPUT_DEBOUNCE = 200
 export const MAX_RESULTS = 5

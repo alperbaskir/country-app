@@ -1,4 +1,4 @@
-import {ReactSearchAutocomplete} from "components/search/index"
+import {ReactSearchAutocomplete} from "components/Search/index"
 import { useCallback, useEffect, useState } from "react";
 import Layout from 'components/layout/Layout';
 import Card, {CardProps} from "components/country/Card";

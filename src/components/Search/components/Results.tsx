@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SearchIcon } from './SearchIcon'
+import { SearchIcon } from 'components/Search/components/SearchIcon'
 
 export type Item<T> = T & { [key: string]: any }
 

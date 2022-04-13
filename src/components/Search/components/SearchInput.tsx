@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FocusEvent, FocusEventHandler, useRef } from 'react'
 import styled from 'styled-components'
-import { ClearIcon } from './ClearIcon'
-import { SearchIcon } from './SearchIcon'
+import { ClearIcon } from 'components/Search/components/ClearIcon'
+import { SearchIcon } from 'components/Search/components/SearchIcon'
 
 interface SearchInputProps {
   searchString: string
