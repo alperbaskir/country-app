@@ -4,5 +4,5 @@ of information about that country, including displaying the country’s flag.
 - However, it should not
 simply fetch all the data once, rather do individual requests per selected country.
 # how to check
-- You can install all dependencies via ```npm install``` and start the development server via ```npm start```
+- You can install all dependencies via ```npm install``` then run this command: ```npm audit --production``` and finally, start the development server via ```npm start```
  
